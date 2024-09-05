@@ -68,6 +68,22 @@ mutation DeleteTask($input: DeleteTaskInput!) {
 }
 """)
 
+UPDATE_TASK = gql("""
+mutation UpdateTask($input: UpdateTaskInput!) {
+  updateTask(input: $input) {
+    id
+    name
+    description
+    estimated_time_mins
+    priority
+    tags
+    scheduled_date_utc
+    createdAt
+    updatedAt
+  }
+}
+""")
+
 
 class Task:
     def __init__(self, client):
@@ -158,4 +174,34 @@ class Task:
             scheduled_date_utc=deleted_task['scheduled_date_utc'],
             createdAt=datetime.fromisoformat(deleted_task['createdAt'].replace('Z', '+00:00')),
             updatedAt=datetime.fromisoformat(deleted_task['updatedAt'].replace('Z', '+00:00'))
+        )
+
+    def update_task(self, update_input: UpdateTaskInput) -> TaskOut:
+        """
+        Update a Task in the GraphQL API.
+
+        Args:
+            update_input (UpdateTaskInput): The input data for updating the task.
+
+        Returns:
+            TaskOut: The updated Task.
+        """
+        variables = {
+            "input": update_input.dict(exclude_none=True)
+        }
+
+        result = self.client.execute(UPDATE_TASK, variable_values=variables)
+
+        updated_task = result['updateTask']
+
+        return TaskOut(
+            id=updated_task['id'],
+            name=updated_task['name'],
+            description=updated_task['description'],
+            estimated_time_mins=updated_task['estimated_time_mins'],
+            priority=updated_task['priority'],
+            tags=updated_task['tags'],
+            scheduled_date_utc=updated_task['scheduled_date_utc'],
+            createdAt=datetime.fromisoformat(updated_task['createdAt'].replace('Z', '+00:00')),
+            updatedAt=datetime.fromisoformat(updated_task['updatedAt'].replace('Z', '+00:00'))
         )

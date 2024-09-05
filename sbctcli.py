@@ -130,7 +130,13 @@ function_io_map = {
         "output": TaskOut,
         "description": "Deletes a Task from the GraphQL API.",
         "function": task_client.delete_task
-    },    
+    },
+    "update_task": {
+        "input": UpdateTaskInput,
+        "output": TaskOut,
+        "description": "Updates an existing Task in the GraphQL API.",
+        "function": task_client.update_task
+    },
 }
 
 

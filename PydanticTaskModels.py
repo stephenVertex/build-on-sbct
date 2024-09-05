@@ -109,3 +109,12 @@ class DeleteTaskInput(BaseModelWithCustomJSON):
 
 class TaskId(BaseModelWithCustomJSON):
     id: str    
+
+class UpdateTaskInput(BaseModelWithCustomJSON):
+    id: str
+    name: Optional[str] = None
+    description: Optional[str] = None
+    estimated_time_mins: Optional[int] = None
+    priority: Optional[int] = None
+    tags: Optional[List[str]] = None
+    scheduled_date_utc: Optional[int] = None    
