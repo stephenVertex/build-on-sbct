@@ -126,3 +126,16 @@ class UTCSecondsList(BaseModelWithCustomJSON):
 class HumanReadableDateList(BaseModelWithCustomJSON):
     dates: List[str]
 
+class HNStory(BaseModelWithCustomJSON):
+    title: str
+    url: str
+
+class HNSearchResult(BaseModelWithCustomJSON):
+    hits: List[HNStory]
+
+class HNBlob(BaseModelWithCustomJSON):
+    search_result: HNSearchResult
+
+class DadJoke(BaseModelWithCustomJSON):
+    joke_id: str
+    joke_contents: str

@@ -28,9 +28,3 @@ todo_client = Todo(client)
 okr_client  = OKR(client)
 
 
-import time
-current_time_s = int(time.time())
-print(current_time_s)
-tc1 = TaskCreate(name="cur time task",
-                 description="this is a task with a scheduled date",
-                 scheduled_date_utc=current_time_s)

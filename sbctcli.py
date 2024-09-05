@@ -83,6 +83,33 @@ def utc_seconds_to_human_readable_datetime(input_list: UTCSecondsList) -> HumanR
     return HumanReadableDateList(dates=human_readable_dates)
 
 
+def fetch_hn_front_page(nm: NullModel) -> HNBlob:
+    """
+    Fetches the front page articles from Hacker News using the Algolia API.
+
+    Args:
+        nm (NullModel): A null input as this function doesn't require any parameters.
+
+    Returns:
+        HNBlob: A Pydantic model containing the search results with title and URL (if available).
+    """
+    import requests
+
+    url = "https://hn.algolia.com/api/v1/search?tags=front_page"
+    response = requests.get(url)
+    response.raise_for_status()
+    data = response.json()
+
+    # Extract title and URL (if available) from each hit, skipping those without URLs
+    simplified_hits = [
+        {"title": hit["title"], "url": hit.get("url")}
+        for hit in data["hits"]
+        if "url" in hit
+    ]
+
+    return HNBlob(search_result={"hits": simplified_hits})
+
+
 ################################################################################
 ## The models we made
 from TaskAccess import *
@@ -102,6 +129,15 @@ client = Client(transport=transport, fetch_schema_from_transport=True)
 task_client = Task(client)
 todo_client = Todo(client)
 okr_client  = OKR(client)
+################################################################################
+##
+
+def get_random_dad_joke(nm: NullModel) -> DadJoke:
+    r = requests.get(url="https://icanhazdadjoke.com/", headers={"Accept" : "application/json"})
+    rj = r.json()
+    return DadJoke(joke_id = rj['id'], joke_contents = rj['joke'])
+
+
 
 
 ################################################################################
@@ -164,7 +200,19 @@ function_io_map = {
     },    
 }
 
+function_io_map["fetch_hn_front_page"] = {
+    "input": NullModel,
+    "output": HNBlob,
+    "description": "Fetches the front page articles from Hacker News using the Algolia API.",
+    "function": fetch_hn_front_page
+}
 
+function_io_map["get_random_dad_joke"] = {
+    "input": NullModel,
+    "output": DadJoke,
+    "description": "Fetch a random dad joke",
+    "function": get_random_dad_joke
+}
 
 def pydantic_to_json_schema(model: BaseModel) -> Dict[str, Any]:
     schema = model.schema()
