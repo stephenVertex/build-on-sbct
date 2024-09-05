@@ -85,15 +85,15 @@ class OKR:
             updatedAt=datetime.fromisoformat(created_okr['updatedAt'].replace('Z', '+00:00'))
         )
 
-    def list_okrs(self, nm: NullModel) -> List[OKROut]:
+    def list_okrs(self, nm: NullModel) -> OKROutList:
         """
         List all OKRs from the GraphQL API.    
         Returns:
-            List[OKROut]: A list of all OKRs.
+            OKROutList: A Pydantic model containing a list of all OKRs.
         """
         result = self.client.execute(LIST_OKRS)    
         okrs = result['listOKRS']['items']
-        return [
+        okr_list = [
             OKROut(
                 id=okr['id'],
                 title=okr['title'],
@@ -102,4 +102,4 @@ class OKR:
                 updatedAt=datetime.fromisoformat(okr['updatedAt'].replace('Z', '+00:00'))
             ) for okr in okrs
         ]
-    
+        return OKROutList(okrs=okr_list)

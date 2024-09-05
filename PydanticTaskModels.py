@@ -58,6 +58,9 @@ class OKROut(BaseModelWithCustomJSON):
     createdAt: datetime
     updatedAt: datetime
 
+class OKROutList(BaseModelWithCustomJSON):
+    okrs: List[OKROut]
+
 class TaskCreate(BaseModelWithCustomJSON):
     name: str
     description: Optional[str] = None
