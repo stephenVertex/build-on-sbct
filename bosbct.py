@@ -16,8 +16,6 @@ import os
 ENDPOINT = os.environ["BOSBCT_ENDPOINT"] 
 API_KEY  = os.environ["BOSBCT_API_KEY"]
 
-
-
 transport = RequestsHTTPTransport(
     url=ENDPOINT,
     headers={'x-api-key': API_KEY},

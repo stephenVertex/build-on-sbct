@@ -80,3 +80,12 @@ class TaskOut(BaseModelWithCustomJSON):
     
 class NullModel(BaseModelWithCustomJSON):
     value: None = None
+
+class DirectoryInput(BaseModelWithCustomJSON):
+    directory: str
+
+class FileList(BaseModelWithCustomJSON):
+    files: List[str]
+    
+class CurrentDateTime(BaseModelWithCustomJSON):
+    current_datetime: datetime

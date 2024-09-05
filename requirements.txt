@@ -2,3 +2,10 @@ pydantic
 gql
 requests
 requests_toolbelt
+boto3==1.34.134
+dateparser
+typing-extensions
+rich
+prompt-toolkit
+pyyaml
+pydantic_yaml
