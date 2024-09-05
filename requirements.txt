@@ -1,0 +1,4 @@
+pydantic
+gql
+requests
+requests_toolbelt
