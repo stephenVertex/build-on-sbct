@@ -48,6 +48,22 @@ from prompt_toolkit.styles import Style
 def get_current_datetime(NullModel) -> CurrentDateTime:
     return CurrentDateTime(current_datetime=datetime.now(pytz.timezone('US/Pacific')))
 
+def plaintext_datetime_to_millis(pt: InputDatetimePlaintext) -> DatetimeMillis:
+    parsed_start_date = dateparser.parse(pt.input_dt)
+    if parsed_start_date:
+        return DatetimeMillis(datetime_millis=str(int(parsed_start_date.timestamp() * 1000)))
+    return None
+
+
+def plaintext_datetime_to_seconds(pt: InputDatetimePlaintext) -> DatetimeSeconds:
+    parsed_start_date = dateparser.parse(pt.input_dt)
+    if parsed_start_date:
+        return DatetimeSeconds(datetime_seconds=str(int(parsed_start_date.timestamp())))
+    return None
+
+
+
+
 ################################################################################
 ## The models we made
 from TaskAccess import *
@@ -84,7 +100,37 @@ function_io_map = {
         "output" : OKROutList,
         "description" : "Lists all current OKRs",
         "function" : okr_client.list_okrs
-    }
+    },
+    "plaintext_datetime_to_millis": {
+        "input": InputDatetimePlaintext,
+        "output": DatetimeMillis,
+        "description": "Converts a human-readable date/time string to milliseconds since epoch. Useful for ClickUp API interactions.",
+        "function": plaintext_datetime_to_millis
+    },
+    "plaintext_datetime_to_seconds": {
+        "input": InputDatetimePlaintext,
+        "output": DatetimeSeconds,
+        "description": "Converts a human-readable date/time string to milliseconds since epoch. Useful for ClickUp API interactions.",
+        "function": plaintext_datetime_to_seconds
+    },        
+    "create_task": {
+        "input": TaskCreate,
+        "output": TaskOut,
+        "description": "Creates a new Task and sends it to the GraphQL API.",
+        "function": task_client.create_task
+    },
+    "list_tasks": {
+        "input": NullModel,
+        "output": TaskList,
+        "description": "Lists all Tasks from the GraphQL API.",
+        "function": task_client.list_tasks
+    },
+    "delete_task": {
+        "input": TaskId,
+        "output": TaskOut,
+        "description": "Deletes a Task from the GraphQL API.",
+        "function": task_client.delete_task
+    },    
 }
 
 
@@ -137,8 +183,8 @@ def process_tool_call(tool_name, tool_input):
     result = function(validated_input)
 
     # Check if the result is of the expected output type
-    if not isinstance(result, output_model):
-        return {"error": f"Function returned unexpected type. Expected {output_model.__name__}, got {type(result).__name__}"}
+    #if not isinstance(result, output_model):
+    #    return {"error": f"Function returned unexpected type. Expected {output_model.__name__}, got {type(result).__name__}"}
 
     return result
 

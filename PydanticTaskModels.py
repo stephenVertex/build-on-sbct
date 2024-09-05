@@ -67,6 +67,7 @@ class TaskCreate(BaseModelWithCustomJSON):
     estimated_time_mins: Optional[int] = None
     priority: Optional[int] = None
     tags: Optional[List[str]] = None
+    scheduled_date_utc: Optional[int] = None  # Add this line
 
 class TaskOut(BaseModelWithCustomJSON):
     id: str
@@ -75,9 +76,13 @@ class TaskOut(BaseModelWithCustomJSON):
     estimated_time_mins: Optional[int] = None
     priority: Optional[int] = None
     tags: Optional[List[str]] = None
+    scheduled_date_utc: Optional[int] = None  # Add this line
     createdAt: datetime
     updatedAt: datetime
     
+class TaskList(BaseModelWithCustomJSON):
+    tasks: List[TaskOut]
+
 class NullModel(BaseModelWithCustomJSON):
     value: None = None
 
@@ -89,3 +94,18 @@ class FileList(BaseModelWithCustomJSON):
     
 class CurrentDateTime(BaseModelWithCustomJSON):
     current_datetime: datetime
+
+class InputDatetimePlaintext(BaseModelWithCustomJSON):
+    input_dt: str
+
+class DatetimeMillis(BaseModelWithCustomJSON):
+    datetime_millis: str
+
+class DatetimeSeconds(BaseModelWithCustomJSON):
+    datetime_seconds: str
+
+class DeleteTaskInput(BaseModelWithCustomJSON):
+    id: str    
+
+class TaskId(BaseModelWithCustomJSON):
+    id: str    
