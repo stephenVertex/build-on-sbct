@@ -118,3 +118,11 @@ class UpdateTaskInput(BaseModelWithCustomJSON):
     priority: Optional[int] = None
     tags: Optional[List[str]] = None
     scheduled_date_utc: Optional[int] = None    
+
+
+class UTCSecondsList(BaseModelWithCustomJSON):
+    utc_seconds: List[int]
+
+class HumanReadableDateList(BaseModelWithCustomJSON):
+    dates: List[str]
+

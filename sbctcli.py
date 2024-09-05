@@ -62,6 +62,25 @@ def plaintext_datetime_to_seconds(pt: InputDatetimePlaintext) -> DatetimeSeconds
     return None
 
 
+def utc_seconds_to_human_readable_datetime(input_list: UTCSecondsList) -> HumanReadableDateList:
+    human_readable_dates = []
+    pacific_tz = pytz.timezone('US/Pacific')
+
+    for utc_seconds in input_list.utc_seconds:
+        # Convert UTC seconds to datetime object
+        utc_dt = datetime.utcfromtimestamp(utc_seconds)
+
+        # Make the datetime object timezone-aware (UTC)
+        utc_dt = pytz.utc.localize(utc_dt)
+
+        # Convert to Pacific Time
+        pacific_dt = utc_dt.astimezone(pacific_tz)
+
+        # Format the date
+        formatted_date = pacific_dt.strftime('%Y-%m-%d %I:%M:%S %p %Z')
+        human_readable_dates.append(formatted_date)
+
+    return HumanReadableDateList(dates=human_readable_dates)
 
 
 ################################################################################
@@ -110,7 +129,7 @@ function_io_map = {
     "plaintext_datetime_to_seconds": {
         "input": InputDatetimePlaintext,
         "output": DatetimeSeconds,
-        "description": "Converts a human-readable date/time string to milliseconds since epoch. Useful for ClickUp API interactions.",
+        "description": "Converts a human-readable date/time string to seconds since epoch. Useful for ClickUp API interactions.",
         "function": plaintext_datetime_to_seconds
     },        
     "create_task": {
@@ -137,6 +156,12 @@ function_io_map = {
         "description": "Updates an existing Task in the GraphQL API.",
         "function": task_client.update_task
     },
+    "utc_seconds_to_human_readable_datetime": {
+        "input": UTCSecondsList,
+        "output": HumanReadableDateList,
+        "description": "Converts a list of UTC seconds to human-readable dates in Pacific Time Zone.",
+        "function": utc_seconds_to_human_readable_datetime
+    },    
 }
 
 
