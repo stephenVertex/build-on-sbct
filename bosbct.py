@@ -9,8 +9,14 @@ from PydanticTaskModels import *
 from TaskAccess import *
 from TodoAccess import *
 from OKRAccess  import *
-ENDPOINT=  'https://3wwasfc2lvhdhcq4e3vnw5lb4m.appsync-api.us-east-1.amazonaws.com/graphql'
-API_KEY= 'da2-cndisyx74verlbpnhb2kfsq6mq'
+
+import os
+
+
+ENDPOINT = os.environ["BOSBCT_ENDPOINT"] 
+API_KEY  = os.environ["BOSBCT_API_KEY"]
+
+
 
 transport = RequestsHTTPTransport(
     url=ENDPOINT,
@@ -22,3 +28,5 @@ client = Client(transport=transport, fetch_schema_from_transport=True)
 task_client = Task(client)
 todo_client = Todo(client)
 okr_client  = OKR(client)
+
+
