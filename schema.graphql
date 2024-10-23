@@ -1,0 +1,443 @@
+input CreateOKRInput {
+	title: String
+	description: String
+	id: ID
+}
+
+input CreateTaskInput {
+	name: String
+	description: String
+	estimated_time_mins: Int
+	priority: Int
+	tags: [String]
+	scheduled_date_utc: Int
+	id: ID
+}
+
+input CreateTodoInput {
+	content: String
+	id: ID
+}
+
+input DeleteOKRInput {
+	id: ID!
+}
+
+input DeleteTaskInput {
+	id: ID!
+}
+
+input DeleteTodoInput {
+	id: ID!
+}
+
+enum ModelAttributeTypes {
+	binary
+	binarySet
+	bool
+	list
+	map
+	number
+	numberSet
+	string
+	stringSet
+	_null
+}
+
+input ModelBooleanInput {
+	ne: Boolean
+	eq: Boolean
+	attributeExists: Boolean
+	attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+	ne: Float
+	eq: Float
+	le: Float
+	lt: Float
+	ge: Float
+	gt: Float
+	between: [Float]
+	attributeExists: Boolean
+	attributeType: ModelAttributeTypes
+}
+
+input ModelIDInput {
+	ne: ID
+	eq: ID
+	le: ID
+	lt: ID
+	ge: ID
+	gt: ID
+	contains: ID
+	notContains: ID
+	between: [ID]
+	beginsWith: ID
+	attributeExists: Boolean
+	attributeType: ModelAttributeTypes
+	size: ModelSizeInput
+}
+
+input ModelIntInput {
+	ne: Int
+	eq: Int
+	le: Int
+	lt: Int
+	ge: Int
+	gt: Int
+	between: [Int]
+	attributeExists: Boolean
+	attributeType: ModelAttributeTypes
+}
+
+input ModelOKRConditionInput {
+	title: ModelStringInput
+	description: ModelStringInput
+	and: [ModelOKRConditionInput]
+	or: [ModelOKRConditionInput]
+	not: ModelOKRConditionInput
+	createdAt: ModelStringInput
+	updatedAt: ModelStringInput
+}
+
+type ModelOKRConnection @aws_api_key
+@aws_iam {
+	items: [OKR]!
+	nextToken: String
+}
+
+input ModelOKRFilterInput {
+	title: ModelStringInput
+	description: ModelStringInput
+	id: ModelIDInput
+	createdAt: ModelStringInput
+	updatedAt: ModelStringInput
+	and: [ModelOKRFilterInput]
+	or: [ModelOKRFilterInput]
+	not: ModelOKRFilterInput
+}
+
+input ModelSizeInput {
+	ne: Int
+	eq: Int
+	le: Int
+	lt: Int
+	ge: Int
+	gt: Int
+	between: [Int]
+}
+
+enum ModelSortDirection {
+	ASC
+	DESC
+}
+
+input ModelStringInput {
+	ne: String
+	eq: String
+	le: String
+	lt: String
+	ge: String
+	gt: String
+	contains: String
+	notContains: String
+	between: [String]
+	beginsWith: String
+	attributeExists: Boolean
+	attributeType: ModelAttributeTypes
+	size: ModelSizeInput
+}
+
+input ModelSubscriptionBooleanInput {
+	ne: Boolean
+	eq: Boolean
+}
+
+input ModelSubscriptionFloatInput {
+	ne: Float
+	eq: Float
+	le: Float
+	lt: Float
+	ge: Float
+	gt: Float
+	between: [Float]
+	in: [Float]
+	notIn: [Float]
+}
+
+input ModelSubscriptionIDInput {
+	ne: ID
+	eq: ID
+	le: ID
+	lt: ID
+	ge: ID
+	gt: ID
+	contains: ID
+	notContains: ID
+	between: [ID]
+	beginsWith: ID
+	in: [ID]
+	notIn: [ID]
+}
+
+input ModelSubscriptionIntInput {
+	ne: Int
+	eq: Int
+	le: Int
+	lt: Int
+	ge: Int
+	gt: Int
+	between: [Int]
+	in: [Int]
+	notIn: [Int]
+}
+
+input ModelSubscriptionOKRFilterInput {
+	title: ModelSubscriptionStringInput
+	description: ModelSubscriptionStringInput
+	id: ModelSubscriptionIDInput
+	createdAt: ModelSubscriptionStringInput
+	updatedAt: ModelSubscriptionStringInput
+	and: [ModelSubscriptionOKRFilterInput]
+	or: [ModelSubscriptionOKRFilterInput]
+}
+
+input ModelSubscriptionStringInput {
+	ne: String
+	eq: String
+	le: String
+	lt: String
+	ge: String
+	gt: String
+	contains: String
+	notContains: String
+	between: [String]
+	beginsWith: String
+	in: [String]
+	notIn: [String]
+}
+
+input ModelSubscriptionTaskFilterInput {
+	name: ModelSubscriptionStringInput
+	description: ModelSubscriptionStringInput
+	estimated_time_mins: ModelSubscriptionIntInput
+	priority: ModelSubscriptionIntInput
+	tags: ModelSubscriptionStringInput
+	scheduled_date_utc: ModelSubscriptionIntInput
+	id: ModelSubscriptionIDInput
+	createdAt: ModelSubscriptionStringInput
+	updatedAt: ModelSubscriptionStringInput
+	and: [ModelSubscriptionTaskFilterInput]
+	or: [ModelSubscriptionTaskFilterInput]
+}
+
+input ModelSubscriptionTodoFilterInput {
+	content: ModelSubscriptionStringInput
+	id: ModelSubscriptionIDInput
+	createdAt: ModelSubscriptionStringInput
+	updatedAt: ModelSubscriptionStringInput
+	and: [ModelSubscriptionTodoFilterInput]
+	or: [ModelSubscriptionTodoFilterInput]
+}
+
+input ModelTaskConditionInput {
+	name: ModelStringInput
+	description: ModelStringInput
+	estimated_time_mins: ModelIntInput
+	priority: ModelIntInput
+	tags: ModelStringInput
+	scheduled_date_utc: ModelIntInput
+	and: [ModelTaskConditionInput]
+	or: [ModelTaskConditionInput]
+	not: ModelTaskConditionInput
+	createdAt: ModelStringInput
+	updatedAt: ModelStringInput
+}
+
+type ModelTaskConnection @aws_api_key
+@aws_iam {
+	items: [Task]!
+	nextToken: String
+}
+
+input ModelTaskFilterInput {
+	name: ModelStringInput
+	description: ModelStringInput
+	estimated_time_mins: ModelIntInput
+	priority: ModelIntInput
+	tags: ModelStringInput
+	scheduled_date_utc: ModelIntInput
+	id: ModelIDInput
+	createdAt: ModelStringInput
+	updatedAt: ModelStringInput
+	and: [ModelTaskFilterInput]
+	or: [ModelTaskFilterInput]
+	not: ModelTaskFilterInput
+}
+
+input ModelTodoConditionInput {
+	content: ModelStringInput
+	and: [ModelTodoConditionInput]
+	or: [ModelTodoConditionInput]
+	not: ModelTodoConditionInput
+	createdAt: ModelStringInput
+	updatedAt: ModelStringInput
+}
+
+type ModelTodoConnection @aws_api_key
+@aws_iam {
+	items: [Todo]!
+	nextToken: String
+}
+
+input ModelTodoFilterInput {
+	content: ModelStringInput
+	id: ModelIDInput
+	createdAt: ModelStringInput
+	updatedAt: ModelStringInput
+	and: [ModelTodoFilterInput]
+	or: [ModelTodoFilterInput]
+	not: ModelTodoFilterInput
+}
+
+type OKR @aws_iam
+@aws_api_key {
+	title: String
+	description: String
+	id: ID!
+	createdAt: AWSDateTime!
+	updatedAt: AWSDateTime!
+}
+
+type Task @aws_iam
+@aws_api_key {
+	name: String
+	description: String
+	estimated_time_mins: Int
+	priority: Int
+	tags: [String]
+	scheduled_date_utc: Int
+	id: ID!
+	createdAt: AWSDateTime!
+	updatedAt: AWSDateTime!
+}
+
+type Todo @aws_iam
+@aws_api_key {
+	content: String
+	id: ID!
+	createdAt: AWSDateTime!
+	updatedAt: AWSDateTime!
+}
+
+input UpdateOKRInput {
+	title: String
+	description: String
+	id: ID!
+}
+
+input UpdateTaskInput {
+	name: String
+	description: String
+	estimated_time_mins: Int
+	priority: Int
+	tags: [String]
+	scheduled_date_utc: Int
+	id: ID!
+}
+
+input UpdateTodoInput {
+	content: String
+	id: ID!
+}
+
+type Mutation {
+	createTodo(input: CreateTodoInput!, condition: ModelTodoConditionInput): Todo
+		@aws_api_key
+@aws_iam
+	updateTodo(input: UpdateTodoInput!, condition: ModelTodoConditionInput): Todo
+		@aws_api_key
+@aws_iam
+	deleteTodo(input: DeleteTodoInput!, condition: ModelTodoConditionInput): Todo
+		@aws_api_key
+@aws_iam
+	createOKR(input: CreateOKRInput!, condition: ModelOKRConditionInput): OKR
+		@aws_api_key
+@aws_iam
+	updateOKR(input: UpdateOKRInput!, condition: ModelOKRConditionInput): OKR
+		@aws_api_key
+@aws_iam
+	deleteOKR(input: DeleteOKRInput!, condition: ModelOKRConditionInput): OKR
+		@aws_api_key
+@aws_iam
+	createTask(input: CreateTaskInput!, condition: ModelTaskConditionInput): Task
+		@aws_api_key
+@aws_iam
+	updateTask(input: UpdateTaskInput!, condition: ModelTaskConditionInput): Task
+		@aws_api_key
+@aws_iam
+	deleteTask(input: DeleteTaskInput!, condition: ModelTaskConditionInput): Task
+		@aws_api_key
+@aws_iam
+}
+
+type Query {
+	getTodo(id: ID!): Todo
+		@aws_api_key
+@aws_iam
+	listTodos(filter: ModelTodoFilterInput, limit: Int, nextToken: String): ModelTodoConnection
+		@aws_api_key
+@aws_iam
+	getOKR(id: ID!): OKR
+		@aws_api_key
+@aws_iam
+	listOKRS(filter: ModelOKRFilterInput, limit: Int, nextToken: String): ModelOKRConnection
+		@aws_api_key
+@aws_iam
+	getTask(id: ID!): Task
+		@aws_api_key
+@aws_iam
+	listTasks(filter: ModelTaskFilterInput, limit: Int, nextToken: String): ModelTaskConnection
+		@aws_api_key
+@aws_iam
+}
+
+type Subscription {
+	onCreateTodo(filter: ModelSubscriptionTodoFilterInput): Todo
+		@aws_subscribe(mutations: ["createTodo"])
+@aws_api_key
+@aws_iam
+	onUpdateTodo(filter: ModelSubscriptionTodoFilterInput): Todo
+		@aws_subscribe(mutations: ["updateTodo"])
+@aws_api_key
+@aws_iam
+	onDeleteTodo(filter: ModelSubscriptionTodoFilterInput): Todo
+		@aws_subscribe(mutations: ["deleteTodo"])
+@aws_api_key
+@aws_iam
+	onCreateOKR(filter: ModelSubscriptionOKRFilterInput): OKR
+		@aws_subscribe(mutations: ["createOKR"])
+@aws_api_key
+@aws_iam
+	onUpdateOKR(filter: ModelSubscriptionOKRFilterInput): OKR
+		@aws_subscribe(mutations: ["updateOKR"])
+@aws_api_key
+@aws_iam
+	onDeleteOKR(filter: ModelSubscriptionOKRFilterInput): OKR
+		@aws_subscribe(mutations: ["deleteOKR"])
+@aws_api_key
+@aws_iam
+	onCreateTask(filter: ModelSubscriptionTaskFilterInput): Task
+		@aws_subscribe(mutations: ["createTask"])
+@aws_api_key
+@aws_iam
+	onUpdateTask(filter: ModelSubscriptionTaskFilterInput): Task
+		@aws_subscribe(mutations: ["updateTask"])
+@aws_api_key
+@aws_iam
+	onDeleteTask(filter: ModelSubscriptionTaskFilterInput): Task
+		@aws_subscribe(mutations: ["deleteTask"])
+@aws_api_key
+@aws_iam
+}
